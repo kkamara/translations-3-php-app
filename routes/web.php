@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\TranslationsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
 use App\Mail\Test as TestMail;
@@ -33,4 +34,14 @@ Route::get('/email', function () {
     return $email;
 });
 
-Route::view('/{path?}', 'layouts.app')->where('path', '.*');
+// Route::view('/{path?}', 'layouts.app')->where('path', '.*');
+
+Route::group(['prefix' => '{locale}'], function () {
+    Route::get(
+        '/', 
+        [
+            TranslationsController::class,
+            "home"
+        ]
+    )->name("home");
+});
